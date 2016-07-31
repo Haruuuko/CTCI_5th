@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+class MatrixProcessor:
+
+    def __init__(self, matrix):
+        self.m = len(matrix)
+        self.n = len(matrix[0])
+        self.matrix = matrix
+
+    def __str__(self):
+        return ''.join('%s%s%s' % ('[', ''.join('%s%s%s' % (' ', str(cell), ' ')for cell in row), ']\n')for row in self.matrix)
+
+    def rotate90(self):
+        columnlist = [[] for i in range(self.m)]
+        [columnlist[i].append(row[i]) for i in range(self.n) for row in self.matrix]
+        self.matrix = [reversed(col) for col in columnlist]
+
+#testing
+
+if __name__ == '__main__':
+    mat1 = MatrixProcessor([[1,2,3],[4,5,6],[7,8,9]])
+    print str(mat1)
+
+    mat1.rotate90()
+    print str(mat1)
+

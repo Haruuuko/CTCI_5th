@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+
+import unittest
+
+#no data structures     O(n^2)
+def uniqueCharsSimple(str_):
+    if len(str_) > 256: return False
+    for char in str_:
+        count = 0
+        for char2 in str_:
+            if char2 == char:
+                count += 1
+            if count > 1:
+                return False
+    return True
+
+#use a list     O(n^2)
+def uniqueCharsWithList(str_):
+    if len(str_) > 256: return False
+    charlist = []
+    for char in str_:
+        if char in charlist:
+            return False
+        else:
+            charlist.append(char)
+    return True
+
+#use a list with bool   O(n)
+def uniqueCharsWithBoolList(str_):
+    if len(str_) > 256: return False
+    charlist = [False] * 256
+    for char in str_:
+        if charlist[ord(char)]:
+            return False
+        else:
+            charlist[ord(char)] = True
+    return True
+
+#use a dict with bool   O(n)
+def uniqueCharsWithDict(str_):
+    if len(str_) > 256: return False
+    chardict = {}
+    for char in str_:
+        if char in chardict:
+            return False
+        else:
+            chardict[char] = True
+    return True
+
+#use len() and set()
+def uniqueCharsWithLen(str_):
+    if len(str_) > 256: return False
+    return len(str_) == len(set(str_))
+
+#use string.count()
+def uniqueCharsWithCount(str_):
+    if len(str_) > 256: return False
+    for char in str_:
+        if str_.count(char) > 1:
+            return False
+    return True
+
+#use bit vector
+def uniqueCharsWithBit(str_):
+    if len(str_) > 26: return False
+    checker = 0
+    for char in str_:
+        if checker & (1 << ord(char)):
+            return False
+        else:
+            checker |= (1 << ord(char))
+    return True
+
+#testing
+
+class unitTest(unittest.TestCase):
+    
+    TEST_DATA = [
+            ('asdfghjkl',True),
+            ('a',True),
+            ('aaabbbccc',False),
+            ('abcdefbcd',False)]
+    
+    FUNCTIONS = [uniqueCharsSimple, uniqueCharsWithList, uniqueCharsWithBoolList, uniqueCharsWithDict, uniqueCharsWithLen, uniqueCharsWithCount, uniqueCharsWithBit]
+
+    def testUniqueChars(self):
+        for func in self.FUNCTIONS:
+            print (func)
+            for str_, result in self.TEST_DATA:
+                result1 = func(str_)
+                self.assertEqual(result1, result)
+
+if __name__ == '__main__':
+    unittest.main()

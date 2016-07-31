@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import unittest
+
+#use sorted()
+def permutationWithSort(s1,s2):
+    if len(s1) != len(s2): return False
+    return sorted(s1) == sorted(s2)
+
+#use find()
+def permutationWithFind(s1,s2):
+    if len(s1) != len(s2): return False
+    for char in s1:
+        if s2.find(char) == -1:
+            return False
+        else:
+            s2 = s2.replace(char,'',1)
+    return True
+
+#use count()
+def permutationWithCount(s1,s2):
+    if len(s1) != len(s2): return False
+    for char in s1:
+        if s1.count(char) != s2.count(char):
+            return False
+    return True
+
+#testing
+
+class unitTest(unittest.TestCase):
+
+    TEST_DATA = [
+            ('apple','pinapple',False),
+            ('mmmmm','nnnnn',False),
+            ('spam','maps',True)]
+
+    FUNCTIONS = [permutationWithSort, permutationWithFind, permutationWithCount]
+
+    def testPermutation(self):
+        for func in self.FUNCTIONS:
+            print (func)
+            for s1,s2,result in self.TEST_DATA:
+                result1 = func(s1,s2)
+                self.assertEqual(result1,result)
+
+if __name__ == '__main__':
+    unittest.main()

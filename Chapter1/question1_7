@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+class MatrixProcessor:
+
+    def __init__(self, matrix):
+        self.m = len(matrix)
+        self.n = len(matrix[0])
+        self.matrix = matrix
+
+    def __str__(self):
+        rowstring = ''
+        for row in self.matrix:
+            rowstring = rowstring + '['
+            for cell in row:
+                rowstring = rowstring + ' ' + str(cell) + ' '
+            rowstring = rowstring + ']\n'
+        return rowstring
+
+    def zeroProcess(self):
+        columnlist = []
+        rowlist = []
+        for row, rownum in enumerate(self.matrix):
+            for col, colnum in enumerate(rownum):
+                if colnum == 0:
+                    rowlist.append(row)
+                    columnlist.append(col)
+
+        for row in rowlist:
+            for i in range(0, self.n):
+                self.matrix[row][i] = 0
+        for col in columnlist:
+            for i in range(0, self.m):
+                self.matrix[i][col] = 0
+
+#testing
+
+if __name__ == '__main__':
+    mat1 = MatrixProcessor([[1,2,3,4,5],[6,7,8,9,0],[4,4,4,4,4],[3,0,3,3,3]])
+    print str(mat1)
+
+    mat1.zeroProcess()
+    print str(mat1)
